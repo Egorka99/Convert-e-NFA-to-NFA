@@ -1,102 +1,64 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-class Node {
-    int st;
-    Node link;
-}
-
 public class Converter {
-    private static int[] set = new int[20], finalstate = new int[20], buffer = new int[20];
-    private static int nostate, noalpha, s, notransition, nofinal, start, c, r;
-    public static char[] alphabet = new char[20];
-    private static int[][] eClosure = new int[20][20];
-    public static Node[][] transitionTable = new Node[20][20];
+    private int[] set = new int[20], numbersOfFinalStates, buffer = new int[20];
+    private int countOfStates,  countOfFinalStates, numberOfStartState, c;
+    private char[] alphabet;
+    private int[][] eClosure = new int[20][20];
+    private Node[][] transitionTable = new Node[20][20];
 
-    public static void tableInit() {
-        for (int i = 0; i < notransition; i++) {
-            for (int j = 0; j < notransition; j++) {
+
+    public Converter(char[] alphabet, int countOfStates, int numberOfStartState, int countOfFinalStates, int[] numbersOfFinalStates) {
+        this.alphabet = alphabet;
+        this.countOfStates = countOfStates;
+        this.numberOfStartState = numberOfStartState;
+        this.countOfFinalStates = countOfFinalStates;
+        this.numbersOfFinalStates = numbersOfFinalStates;
+
+        tableInit();
+    }
+
+    private void tableInit() {
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 20; j++) {
                 transitionTable[i][j] = null;
             }
         }
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public void printEquivalentNFA () {
         Node temp;
-        System.out.println("enter the number of alphabets?");
-        noalpha = scanner.nextInt();
-
-        System.out.println("NOTE:- [ use letter e as epsilon]");
-        System.out.println("NOTE:- [e must be last character ,if it is present]");
-        scanner.nextLine();
-        System.out.println("\nEnter alphabets?");
-        for (int i = 0; i < noalpha; i++) {
-           String input = scanner.nextLine();
-            alphabet[i] = input.charAt(0);
-        }
-        System.out.println("Enter the number of states?");
-        nostate = scanner.nextInt();
-        System.out.println("Enter the start state?");
-        start = scanner.nextInt();
-        System.out.println("Enter the number of final states?");
-        nofinal = scanner.nextInt();
-
-        System.out.println("Enter the final states?");
-        for (int i = 0; i < nofinal; i++) {
-            finalstate[i] = scanner.nextInt();
-        }
-        System.out.println("Enter no of transition?");
-        notransition = scanner.nextInt();
-        scanner.nextLine();
-        tableInit();
-        System.out.print("NOTE:- [Transition is in the form--> qno   alphabet   qno]" + '\n' + notransition);
-        System.out.println("NOTE:- [States number must be greater than zero]");
-        System.out.println("\nEnter transition?");
-        for (int i = 0; i < notransition; i++) {
-            String input = scanner.nextLine();
-            String[] transition = input.split(" ");
-            int r = Integer.parseInt(transition[0]);
-            Character c = transition[1].charAt(0);
-            int s = Integer.parseInt(transition[2]);
-            insertTrantbl(r,c,s);
-        }
-        System.out.println();
-
-        for (int i = 1; i <= nostate; i++) {
+        for (int i = 1; i <= countOfStates; i++) {
             c = 0;
             for (int j = 0; j < 20; j++) {
                 buffer[j] = 0;
                 eClosure[i][j] = 0;
             }
-            findclosure(i, i);
+            findClosure(i, i);
         }
 
         System.out.println("Equivalent NFA without epsilon");
         System.out.println("-----------------------------------");
         System.out.print("start state:");
-        printEClosure(start);
+        printEClosure(numberOfStartState);
         System.out.print("\nAlphabets:");
-        for (int i = 0; i < noalpha; i++) {
+        for (int i = 0; i < alphabet.length; i++) {
             System.out.print(alphabet[i] + " ");
         }
         System.out.print("\n States :");
-        for (int i = 1; i <= nostate; i++) {
+        for (int i = 1; i <= countOfStates; i++) {
             printEClosure(i);
         }
         System.out.println("\nTransitions are...:");
         int t;
-        for (int i = 1; i <= nostate; i++) {
-            for (int j = 0; j < noalpha - 1; j++) {
-                for (int m = 1; m <= nostate; m++) {
+        for (int i = 1; i <= countOfStates; i++) {
+            for (int j = 0; j < alphabet.length - 1; j++) {
+                for (int m = 1; m <= countOfStates; m++) {
                     set[m] = 0;
                 }
                 for (int k = 0; eClosure[i][k] != 0; k++) {
                     t = eClosure[i][k];
                     temp = transitionTable[t][j];
                     while (temp != null) {
-                        unionclosure(temp.st);
+                        unionClosure(temp.st);
                         temp = temp.link;
                     }
                 }
@@ -104,7 +66,7 @@ public class Converter {
                 printEClosure(i);
                 System.out.print(alphabet[j] + "\t");
                 System.out.print("{");
-                for (int n = 1; n <= nostate; n++) {
+                for (int n = 1; n <= countOfStates; n++) {
                     if (set[n] != 0) {
                         System.out.print("q" + n + ",");
                     }
@@ -113,29 +75,30 @@ public class Converter {
             }
         }
         System.out.print("\n Final states:");
-        findfinalstate();
+        findFinalState();
     }
 
-    public static void findclosure(int x, int sta) {
+    private void findClosure(int x, int sta) {
         Node temp;
         if(buffer[x] != 0) {
             return;
         }
         eClosure[sta][c++] = x;
         buffer[x] = 1;
-        if(alphabet[noalpha - 1] == 'e' && transitionTable[x][noalpha - 1] != null) {
-            temp = transitionTable[x][noalpha - 1];
+        if(alphabet[alphabet.length - 1] == 'e' && transitionTable[x][alphabet.length - 1] != null) {
+            temp = transitionTable[x][alphabet.length - 1];
             while(temp != null) {
-                findclosure(temp.st, sta);
+                findClosure(temp.st, sta);
                 temp = temp.link;
             }
         }
     }
-    public static void insertTrantbl(int r, char c, int s) {
+
+    public void insertIntoTransitionTable(int r, char c, int s) {
         int j;
         Node temp;
-        j = findalpha(c);
-        if(j == 999) {
+        j = findCharacterInAlphabet(c);
+        if(j == -1) {
             System.out.println("error");
             System.exit(0);
         }
@@ -145,16 +108,16 @@ public class Converter {
         transitionTable[r][j] = temp;
     }
 
-    public static int findalpha(char c) {
-        for(int i = 0; i < noalpha; i++) {
+    private int findCharacterInAlphabet(char c) {
+        for(int i = 0; i < alphabet.length; i++) {
             if(alphabet[i] == c) {
                 return i;
             }
         }
-        return 999;
+        return -1;
     }
 
-    public static void unionclosure(int i) {
+    private void unionClosure(int i) {
         int j = 0, k;
         while(eClosure[i][j] != 0) {
             k = eClosure[i][j];
@@ -163,12 +126,11 @@ public class Converter {
         }
     }
 
-    public static void findfinalstate() {
-        int t;
-        for(int i = 0; i < nofinal; i++) {
-            for(int j = 1; j <= nostate; j++) {
+    private void findFinalState() {
+        for(int i = 0; i < countOfFinalStates; i++) {
+            for(int j = 1; j <= countOfStates; j++) {
                 for(int k = 0; eClosure[j][k] != 0; k++) {
-                    if(eClosure[j][k] == finalstate[i]) {
+                    if(eClosure[j][k] == numbersOfFinalStates[i]) {
                         printEClosure(j);
                     }
                 }
@@ -176,7 +138,7 @@ public class Converter {
         }
     }
 
-    public static void printEClosure(int i) {
+    private void printEClosure(int i) {
         System.out.print("{");
         for(int j = 0; eClosure[i][j] != 0; j++) {
             System.out.print("q" + eClosure[i][j] + ",");
