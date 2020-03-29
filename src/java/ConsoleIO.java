@@ -2,18 +2,18 @@ import java.util.Scanner;
 
 public class ConsoleIO {
 
-
     public static void main(String[] args) {
 
         Converter converter;
 
         Scanner scanner = new Scanner(System.in);
-        char[] alphabet = new char[20];
         int countOfStates, countOfTransitions, countOfFinalStates, numberOfStartState;
-        int[] numbersOfFinalStates = new int[20];
+
 
         System.out.println("enter the number of alphabets?");
         int noalpha = scanner.nextInt();
+
+        char[] alphabet = new char[noalpha];
 
         System.out.println("NOTE:- [ use letter e as epsilon]");
         System.out.println("NOTE:- [e must be last character ,if it is present]");
@@ -29,6 +29,8 @@ public class ConsoleIO {
         numberOfStartState = scanner.nextInt();
         System.out.println("Enter the number of final states?");
         countOfFinalStates = scanner.nextInt();
+
+        int[] numbersOfFinalStates = new int[countOfFinalStates];
 
         System.out.println("Enter the final states?");
         for (int i = 0; i < countOfFinalStates; i++) {
@@ -53,6 +55,8 @@ public class ConsoleIO {
             converter.insertIntoTransitionTable(r, c, s);
         }
         System.out.println();
+
+        converter.printEquivalentNFA();
 
     }
 }
