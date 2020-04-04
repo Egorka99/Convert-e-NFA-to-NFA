@@ -1,39 +1,38 @@
 public class Converter {
 
-    private int[] set = new int[20];
-    private int[] buffer = new int[20];
     private int countOfStates;
     private int c;
+    private int[] set;
+    private int[] buffer;
     private char[] alphabet;
-    private int[][] eClosure = new int[20][20];
-    private Node[][] transitionTable = new Node[20][20];
+    private int[][] eClosure;
+    private Node[][] transitionTable;
 
 
     public Converter(char[] alphabet, int countOfStates) {
         this.alphabet = alphabet;
         this.countOfStates = countOfStates;
+
+        set = new int[countOfStates+1];
+        buffer = new int[countOfStates+1];
+        eClosure = new int[countOfStates+1][countOfStates+1];
+        transitionTable = new Node[countOfStates+1][countOfStates+1];
+
         tableInit();
     }
 
     private void tableInit() {
-        for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < 20; j++) {
+        for (int i = 0; i < countOfStates+1; i++) {
+            for (int j = 0; j < countOfStates+1; j++) {
                 transitionTable[i][j] = null;
             }
         }
     }
 
     public void printEquivalentNFA() {
-        Node temp;
-        for (int i = 1; i <= countOfStates; i++) {
-            c = 0;
-            for (int j = 0; j < 20; j++) {
-                buffer[j] = 0;
-                eClosure[i][j] = 0;
-            }
-            findClosure(i, i);
-        }
+        fillEClosure();
 
+        Node temp;
         System.out.println("Эквивалентный НКА без ε-команд");
         System.out.println("-----------------------------------");
         System.out.print("Алфавит: ");
@@ -84,9 +83,9 @@ public class Converter {
                 for (int n = 1; n <= countOfStates; n++) {
                     if (set[n] != 0) {
                         if ((n == countOfStates)) {
-                            stringBuilder.append("q" + n);
+                            stringBuilder.append("q").append(n);
                         } else {
-                            stringBuilder.append("q" + n + ",");
+                            stringBuilder.append("q").append(n).append(",");
                         }
                     }
                 }
@@ -135,6 +134,17 @@ public class Converter {
             }
         }
         return -1;
+    }
+
+    private void fillEClosure() {
+        for (int i = 1; i <= countOfStates; i++) {
+            c = 0;
+            for (int j = 0; j < countOfStates+1; j++) {
+                buffer[j] = 0;
+                eClosure[i][j] = 0;
+            }
+            findClosure(i, i); 
+        }
     }
 
     private void unionClosure(int i) {
