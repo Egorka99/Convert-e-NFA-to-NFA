@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Converter {
 
     private int[] set = new int[20], numbersOfFinalStates, buffer = new int[20];
@@ -60,11 +63,22 @@ public class Converter {
         }
         System.out.println("\nПереходы:");
         int t;
+
+        //заголовок таблицы
+        for (int j = 0; j < alphabet.length - 1; j++) {
+            System.out.printf("%10s", alphabet[j]);
+        }
+        System.out.println();
+
+        //левая колонка + тело
         for (int i = 1; i <= countOfStates; i++) {
+            System.out.print("q" + i + "  ");
             for (int j = 0; j < alphabet.length - 1; j++) {
+
                 for (int m = 1; m <= countOfStates; m++) {
                     set[m] = 0;
                 }
+
                 for (int k = 0; eClosure[i][k] != 0; k++) {
                     t = eClosure[i][k];
                     temp = transitionTable[t][j];
@@ -73,21 +87,22 @@ public class Converter {
                         temp = temp.link;
                     }
                 }
-                System.out.println();
-                System.out.print("q" + i + "  ");
-                System.out.print(alphabet[j] + "  ");
-                System.out.print("{");
+
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("{");
                 for (int n = 1; n <= countOfStates; n++) {
                     if (set[n] != 0) {
                         if ((n == countOfStates)) {
-                            System.out.print("q" + n);
+                            stringBuilder.append("q" + n);
                         } else {
-                            System.out.print("q" + n + ",");
+                            stringBuilder.append("q" + n + ",");
                         }
                     }
                 }
-                System.out.print("}");
+                stringBuilder.append("}");
+                System.out.printf("%10s",stringBuilder.toString());
             }
+            System.out.println();
         }
         System.out.println();
         System.out.print("\nКонечные состояния: ");
@@ -154,12 +169,5 @@ public class Converter {
         }
     }
 
-    private void printEClosure(int i) {
-        System.out.print("{");
-        for (int j = 0; eClosure[i][j] != 0; j++) {
-            System.out.print("q" + eClosure[i][j] + ",");
-        }
-        System.out.print("}\t");
-    }
 }
 
