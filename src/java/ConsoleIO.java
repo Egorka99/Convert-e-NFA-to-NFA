@@ -7,45 +7,36 @@ public class ConsoleIO {
         Converter converter;
 
         Scanner scanner = new Scanner(System.in);
-        int countOfStates, countOfTransitions, countOfFinalStates, numberOfStartState;
+        int countOfStates, countOfTransitions;
 
-
-        System.out.println("enter the number of alphabets?");
+        System.out.println("Входной НКА с ε-командами");
+        System.out.println("-----------------------------------");
+        System.out.println("Количество элементов в алфавите: ");
         int noalpha = scanner.nextInt();
 
         char[] alphabet = new char[noalpha];
 
-        System.out.println("NOTE:- [ use letter e as epsilon]");
-        System.out.println("NOTE:- [e must be last character ,if it is present]");
+        System.out.println("Заметка:- [ Используйте латинскую букву 'e' в качестве эпсилона]");
+        System.out.println("Заметка:- ['e' должна быть последним символом во введенном алфавите]");
         scanner.nextLine();
-        System.out.println("\nEnter alphabets?");
+        System.out.println("Алфавит: ");
         for (int i = 0; i < noalpha; i++) {
             String input = scanner.nextLine();
             alphabet[i] = input.charAt(0);
         }
-        System.out.println("Enter the number of states?");
+        System.out.println("Количество состояний: ");
         countOfStates = scanner.nextInt();
-        System.out.println("Enter the start state?");
-        numberOfStartState = scanner.nextInt();
-        System.out.println("Enter the number of final states?");
-        countOfFinalStates = scanner.nextInt();
 
-        int[] numbersOfFinalStates = new int[countOfFinalStates];
-
-        System.out.println("Enter the final states?");
-        for (int i = 0; i < countOfFinalStates; i++) {
-            numbersOfFinalStates[i] = scanner.nextInt();
-        }
-
-        System.out.println("Enter no of transition?");
+        System.out.println("Количество переходов: ");
         countOfTransitions = scanner.nextInt();
         scanner.nextLine();
 
-        converter = new Converter(alphabet,countOfStates,numberOfStartState,countOfFinalStates,numbersOfFinalStates);
+        converter = new Converter(alphabet,countOfStates);
 
-        System.out.print("NOTE:- [Transition is in the form--> qno   alphabet   qno]" + '\n' + countOfTransitions);
-        System.out.println("NOTE:- [States number must be greater than zero]");
-        System.out.println("\nEnter transition?");
+        System.out.println("Заметка:- [Переходы должны быть в такой форме--> номер состояния   символ алфавита   номер состояния]");
+        System.out.println("Заметка:- [Пример: 1 b 2]");
+        System.out.println("Заметка:- [Номер состояния - больше 0]");
+        System.out.println("Переходы: ");
         for (int i = 0; i < countOfTransitions; i++) {
             String input = scanner.nextLine();
             String[] transition = input.split(" ");

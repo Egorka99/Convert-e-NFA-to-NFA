@@ -1,22 +1,17 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Converter {
 
-    private int[] set = new int[20], numbersOfFinalStates, buffer = new int[20];
-    private int countOfStates, countOfFinalStates, numberOfStartState, c;
+    private int[] set = new int[20];
+    private int[] buffer = new int[20];
+    private int countOfStates;
+    private int c;
     private char[] alphabet;
     private int[][] eClosure = new int[20][20];
     private Node[][] transitionTable = new Node[20][20];
 
 
-    public Converter(char[] alphabet, int countOfStates, int numberOfStartState, int countOfFinalStates, int[] numbersOfFinalStates) {
+    public Converter(char[] alphabet, int countOfStates) {
         this.alphabet = alphabet;
         this.countOfStates = countOfStates;
-        this.numberOfStartState = numberOfStartState;
-        this.countOfFinalStates = countOfFinalStates;
-        this.numbersOfFinalStates = numbersOfFinalStates;
-
         tableInit();
     }
 
@@ -41,14 +36,11 @@ public class Converter {
 
         System.out.println("Эквивалентный НКА без ε-команд");
         System.out.println("-----------------------------------");
-        System.out.print("Начальное состояние: ");
-        System.out.print("q" + numberOfStartState);
-        System.out.print("\nАлфавит: ");
+        System.out.print("Алфавит: ");
         for (int i = 0; i < alphabet.length; i++) {
             if (i == alphabet.length - 1) {
                 System.out.print(alphabet[i]);
-            }
-            else {
+            } else {
                 System.out.print(alphabet[i] + ",");
             }
         }
@@ -56,12 +48,11 @@ public class Converter {
         for (int i = 1; i <= countOfStates; i++) {
             if (i == countOfStates) {
                 System.out.print("q" + i);
-            }
-            else {
+            } else {
                 System.out.print("q" + i + ",");
             }
         }
-        System.out.println("\nПереходы:");
+        System.out.println("\nТаблица:");
         int t;
 
         //заголовок таблицы
@@ -100,13 +91,11 @@ public class Converter {
                     }
                 }
                 stringBuilder.append("}");
-                System.out.printf("%10s",stringBuilder.toString());
+                System.out.printf("%10s", stringBuilder.toString());
             }
             System.out.println();
         }
         System.out.println();
-        System.out.print("\nКонечные состояния: ");
-        findFinalState();
     }
 
     private void findClosure(int x, int sta) {
@@ -154,18 +143,6 @@ public class Converter {
             k = eClosure[i][j];
             set[k] = 1;
             j++;
-        }
-    }
-
-    private void findFinalState() {
-        for (int i = 0; i < countOfFinalStates; i++) {
-            for (int j = 1; j <= countOfStates; j++) {
-                for (int k = 0; eClosure[j][k] != 0; k++) {
-                    if (eClosure[j][k] == numbersOfFinalStates[i]) {
-                            System.out.print(j + " ");
-                    }
-                }
-            }
         }
     }
 
