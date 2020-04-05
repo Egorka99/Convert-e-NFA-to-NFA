@@ -82,7 +82,7 @@ public class Converter {
                 stringBuilder.append("{");
                 for (int n = 1; n <= countOfStates; n++) {
                     if (set[n] != 0) {
-                        if ((n == countOfStates)) {
+                        if (isEndIndex(set,n)) {
                             stringBuilder.append("q").append(n);
                         } else {
                             stringBuilder.append("q").append(n).append(",");
@@ -95,6 +95,18 @@ public class Converter {
             System.out.println();
         }
         System.out.println();
+    }
+
+    private boolean isEndIndex(int[] array, int index) {
+        if (index == array.length - 1) {
+            return true;
+        }
+        if (array[index + 1] == 1) {
+            return false;
+        }
+        else {
+            return isEndIndex(set,index + 1);
+        }
     }
 
     private void findClosure(int x, int sta) {
