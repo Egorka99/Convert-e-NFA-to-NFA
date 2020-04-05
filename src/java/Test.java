@@ -32,7 +32,7 @@ public class Test {
         converter.insertIntoTransitionTable(3,'b',5);
         converter.insertIntoTransitionTable(5,'a',3);
 
-        converter.printEquivalentNFA();
+        converter.printEquivalentNFA(System.out);
     }
 
 }

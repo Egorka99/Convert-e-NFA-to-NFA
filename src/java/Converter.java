@@ -1,3 +1,6 @@
+import java.io.OutputStream;
+import java.io.PrintStream;
+
 public class Converter {
 
     private int countOfStates;
@@ -29,12 +32,11 @@ public class Converter {
         }
     }
 
-    public void printEquivalentNFA() {
+    public void printEquivalentNFA(PrintStream os) {
         fillEClosure();
-
         Node temp;
-        System.out.println("Эквивалентный НКА без ε-команд");
-        System.out.println("-----------------------------------");
+        os.println("Эквивалентный НКА без ε-команд");
+        os.println("-----------------------------------");
         System.out.print("Алфавит: ");
         for (int i = 0; i < alphabet.length; i++) {
             if (i == alphabet.length - 1) {
@@ -51,14 +53,14 @@ public class Converter {
                 System.out.print("q" + i + ",");
             }
         }
-        System.out.println("\nТаблица:");
+        os.println("\nТаблица:");
         int t;
 
         //заголовок таблицы
         for (int j = 0; j < alphabet.length - 1; j++) {
             System.out.printf("%10s", alphabet[j]);
         }
-        System.out.println();
+        os.println();
 
         //левая колонка + тело
         for (int i = 1; i <= countOfStates; i++) {
@@ -92,9 +94,9 @@ public class Converter {
                 stringBuilder.append("}");
                 System.out.printf("%10s", stringBuilder.toString());
             }
-            System.out.println();
+            os.println();
         }
-        System.out.println();
+        os.println();
     }
 
     private boolean isEndIndex(int[] array, int index) {
@@ -130,7 +132,6 @@ public class Converter {
         Node temp;
         j = findCharacterInAlphabet(c);
         if (j == -1) {
-            System.out.println("error");
             System.exit(0);
         }
         temp = new Node();

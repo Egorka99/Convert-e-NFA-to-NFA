@@ -47,7 +47,7 @@ public class ConsoleIO {
         }
         System.out.println();
 
-        converter.printEquivalentNFA();
+        converter.printEquivalentNFA(System.out);
 
     }
 }
