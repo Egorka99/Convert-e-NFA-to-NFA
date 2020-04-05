@@ -37,20 +37,20 @@ public class Converter {
         Node temp;
         os.println("Эквивалентный НКА без ε-команд");
         os.println("-----------------------------------");
-        System.out.print("Алфавит: ");
+        os.print("Алфавит: ");
         for (int i = 0; i < alphabet.length; i++) {
             if (i == alphabet.length - 1) {
-                System.out.print(alphabet[i]);
+                os.print(alphabet[i]);
             } else {
-                System.out.print(alphabet[i] + ",");
+                os.print(alphabet[i] + ",");
             }
         }
-        System.out.print("\nСостояния: ");
+        os.print("\nСостояния: ");
         for (int i = 1; i <= countOfStates; i++) {
             if (i == countOfStates) {
-                System.out.print("q" + i);
+                os.print("q" + i);
             } else {
-                System.out.print("q" + i + ",");
+                os.print("q" + i + ",");
             }
         }
         os.println("\nТаблица:");
@@ -58,13 +58,13 @@ public class Converter {
 
         //заголовок таблицы
         for (int j = 0; j < alphabet.length - 1; j++) {
-            System.out.printf("%10s", alphabet[j]);
+            os.printf("%10s", alphabet[j]);
         }
         os.println();
 
         //левая колонка + тело
         for (int i = 1; i <= countOfStates; i++) {
-            System.out.print("q" + i + "  ");
+            os.print("q" + i + "  ");
             for (int j = 0; j < alphabet.length - 1; j++) {
 
                 for (int m = 1; m <= countOfStates; m++) {
@@ -92,7 +92,7 @@ public class Converter {
                     }
                 }
                 stringBuilder.append("}");
-                System.out.printf("%10s", stringBuilder.toString());
+                os.printf("%10s", stringBuilder.toString());
             }
             os.println();
         }
