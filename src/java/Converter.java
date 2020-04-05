@@ -84,7 +84,7 @@ public class Converter {
                 stringBuilder.append("{");
                 for (int n = 1; n <= countOfStates; n++) {
                     if (set[n] != 0) {
-                        if (isEndIndex(set,n)) {
+                        if (isEndIndex(n)) {
                             stringBuilder.append("q").append(n);
                         } else {
                             stringBuilder.append("q").append(n).append(",");
@@ -99,15 +99,15 @@ public class Converter {
         os.println();
     }
 
-    private boolean isEndIndex(int[] array, int index) {
-        if (index == array.length - 1) {
+    private boolean isEndIndex(int index) {
+        if (index == set.length - 1) {
             return true;
         }
-        if (array[index + 1] == 1) {
+        if (set[index + 1] == 1) {
             return false;
         }
         else {
-            return isEndIndex(set,index + 1);
+            return isEndIndex(index + 1);
         }
     }
 
