@@ -1,4 +1,3 @@
-import java.io.OutputStream;
 import java.io.PrintStream;
 
 public class Converter {
@@ -16,17 +15,17 @@ public class Converter {
         this.alphabet = alphabet;
         this.countOfStates = countOfStates;
 
-        set = new int[countOfStates+1];
-        buffer = new int[countOfStates+1];
-        eClosure = new int[countOfStates+1][countOfStates+1];
-        transitionTable = new Node[countOfStates+1][countOfStates+1];
+        set = new int[countOfStates + 1];
+        buffer = new int[countOfStates + 1];
+        eClosure = new int[countOfStates + 1][countOfStates + 1];
+        transitionTable = new Node[countOfStates + 1][countOfStates + 1];
 
         tableInit();
     }
 
     private void tableInit() {
-        for (int i = 0; i < countOfStates+1; i++) {
-            for (int j = 0; j < countOfStates+1; j++) {
+        for (int i = 0; i < countOfStates + 1; i++) {
+            for (int j = 0; j < countOfStates + 1; j++) {
                 transitionTable[i][j] = null;
             }
         }
@@ -105,8 +104,7 @@ public class Converter {
         }
         if (set[index + 1] == 1) {
             return false;
-        }
-        else {
+        } else {
             return isEndIndex(index + 1);
         }
     }
@@ -152,11 +150,11 @@ public class Converter {
     private void fillEClosure() {
         for (int i = 1; i <= countOfStates; i++) {
             c = 0;
-            for (int j = 0; j < countOfStates+1; j++) {
+            for (int j = 0; j < countOfStates + 1; j++) {
                 buffer[j] = 0;
                 eClosure[i][j] = 0;
             }
-            findClosure(i, i); 
+            findClosure(i, i);
         }
     }
 

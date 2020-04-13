@@ -33,7 +33,6 @@ public class FileIO {
     }
 
     private static void writeToFile() throws IOException {
-        File file;
         OutputStream os = new FileOutputStream("output.txt");
         converter.printEquivalentNFA(new PrintStream(os));
     }
