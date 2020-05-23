@@ -3,6 +3,7 @@ Java Program for Converting ε(epsilon) NFA to NFA
 
 ### Examples
 ##### Console input-output
+```
 Входной НКА с эпсилон-командами \
 ------------------------------\
 Количество элементов в алфавите: \
@@ -38,9 +39,11 @@ e\
 q1  {q1,q2,q3}   {q2,q3}\
 q2        {q3}   {q2,q3}\
 q3        {q3}      {q3}\
+```
 
 ### File input-output
 #### input.csv
+```
 3;;\
 a;b;e\
 3;;\
@@ -61,7 +64,7 @@ a;b;e\
 q1  {q1,q2,q3}   {q2,q3}\
 q2        {q3}   {q2,q3}\
 q3        {q3}      {q3}
-
+```
 
 
 
