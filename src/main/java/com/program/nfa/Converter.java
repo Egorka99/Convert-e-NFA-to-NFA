@@ -46,7 +46,8 @@ public class Converter {
                 os.print(alphabet[i] + ",");
             }
         }
-        os.print("\nСостояния: ");
+        os.println();
+        os.print("Состояния: ");
         for (int i = 1; i <= countOfStates; i++) {
             if (i == countOfStates) {
                 os.print("q" + i);
@@ -54,7 +55,8 @@ public class Converter {
                 os.print("q" + i + ",");
             }
         }
-        os.println("\nТаблица:");
+        os.println();
+        os.println("Таблица:");
         int t;
 
         //заголовок таблицы

@@ -9,7 +9,7 @@ public class Test {
 //        converter.insertIntoTransitionTable(2,'e',3);
 //        converter.insertIntoTransitionTable(3,'c',3);
 //
-//        converter.printEquivalentNFA();
+//        converter.printEquivalentNFA(System.out);
 //    }
 
 //    public static void main(String[] args) {
