@@ -1,3 +1,5 @@
+package com.program.nfa;
+
 import java.io.PrintStream;
 
 public class Converter {
@@ -34,7 +36,7 @@ public class Converter {
     public void printEquivalentNFA(PrintStream os) {
         fillEClosure();
         Node temp;
-        os.println("Эквивалентный НКА без ε-команд");
+        os.println("Эквивалентный НКА без эпсилон-команд");
         os.println("-----------------------------------");
         os.print("Алфавит: ");
         for (int i = 0; i < alphabet.length; i++) {

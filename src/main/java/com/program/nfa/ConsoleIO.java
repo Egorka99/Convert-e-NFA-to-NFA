@@ -1,3 +1,5 @@
+package com.program.nfa;
+
 import java.util.Scanner;
 
 public class ConsoleIO {
@@ -9,13 +11,14 @@ public class ConsoleIO {
         Scanner scanner = new Scanner(System.in);
         int countOfStates, countOfTransitions;
 
-        System.out.println("Входной НКА с ε-командами");
+        System.out.println("Входной НКА с эпсилон-командами");
         System.out.println("-----------------------------------");
         System.out.println("Количество элементов в алфавите: ");
         int noalpha = scanner.nextInt();
 
         char[] alphabet = new char[noalpha];
 
+        System.out.println("Заметка:- [ Алфавит (вершины графа) - латинские буквы]");
         System.out.println("Заметка:- [ Используйте латинскую букву 'e' в качестве эпсилона]");
         System.out.println("Заметка:- ['e' должна быть последним символом во введенном алфавите]");
         scanner.nextLine();

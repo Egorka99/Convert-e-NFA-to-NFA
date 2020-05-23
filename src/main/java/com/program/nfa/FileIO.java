@@ -1,3 +1,5 @@
+package com.program.nfa;
+
 import com.opencsv.CSVReader;
 
 import java.io.*;
@@ -5,8 +7,11 @@ import java.io.*;
 public class FileIO {
     static private Converter converter;
 
+    private static final String INPUT_FILE_PATH = "input.csv";
+    private static final String OUTPUT_FILE_PATH = "output.txt";
+
     private static void readFromFile() throws IOException {
-        Reader reader = new FileReader("input.csv");
+        Reader reader = new FileReader(INPUT_FILE_PATH);
         CSVReader csvReader = new CSVReader(reader, ';');
 
         int countCharsOfAlphabet = Integer.parseInt(csvReader.readNext()[0]);
@@ -33,21 +38,21 @@ public class FileIO {
     }
 
     private static void writeToFile() throws IOException {
-        OutputStream os = new FileOutputStream("output.txt");
+        OutputStream os = new FileOutputStream(OUTPUT_FILE_PATH);
         converter.printEquivalentNFA(new PrintStream(os));
     }
 
     public static void main(String[] args) {
         try {
             readFromFile();
-            System.out.println("Чтение файла...");
+            System.out.println("Чтение файла " + INPUT_FILE_PATH);
         } catch (IOException e) {
             System.err.println("Не удалось прочитать файл");
         }
 
         try {
             writeToFile();
-            System.out.println("Запись файла...");
+            System.out.println("Запись файла " + OUTPUT_FILE_PATH);
             System.out.println("Успешно!");
         } catch (IOException e) {
             System.err.println("Не удалось записать данные в файл");
