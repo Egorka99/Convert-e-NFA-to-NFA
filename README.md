@@ -41,8 +41,8 @@ q2        {q3}   {q2,q3}
 q3        {q3}      {q3}
 ```
 
-### File input-output
-#### input.csv
+##### File input-output
+###### input.csv
 ```
 3;;
 a;b;e
@@ -55,7 +55,7 @@ a;b;e
 3;a;3
 3;b;3
 ```
-#### output.csv
+###### output.csv
 ```
 Эквивалентный НКА без эпсилон-команд
 -----------------------------------
