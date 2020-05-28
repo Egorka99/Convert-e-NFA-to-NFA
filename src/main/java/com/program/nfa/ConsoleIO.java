@@ -9,7 +9,7 @@ public class ConsoleIO {
         Converter converter;
 
         Scanner scanner = new Scanner(System.in);
-        int countOfStates, countOfTransitions;
+        int countOfStates, countOfTransitions, numberOfStartState, countOfFinalStates;
 
         System.out.println("Входной НКА с эпсилон-командами");
         System.out.println("-----------------------------------");
@@ -29,12 +29,23 @@ public class ConsoleIO {
         }
         System.out.println("Количество состояний: ");
         countOfStates = scanner.nextInt();
+        System.out.println("Начальное состояние: ");
+        numberOfStartState = scanner.nextInt();
+        System.out.println("Число конечных состояний");
+        countOfFinalStates = scanner.nextInt();
+
+        int[] numbersOfFinalStates = new int[countOfFinalStates];
+
+        System.out.println("Введите конечные состояния");
+        for (int i = 0; i < countOfFinalStates; i++) {
+            numbersOfFinalStates[i] = scanner.nextInt();
+        }
 
         System.out.println("Количество переходов: ");
         countOfTransitions = scanner.nextInt();
         scanner.nextLine();
 
-        converter = new Converter(alphabet,countOfStates);
+        converter = new Converter(alphabet, countOfStates, System.out, numberOfStartState, countOfFinalStates, numbersOfFinalStates);
 
         System.out.println("Заметка:- [Переходы должны быть в такой форме--> номер состояния   символ алфавита   номер состояния]");
         System.out.println("Заметка:- [Пример: 1 b 2]");
@@ -50,7 +61,7 @@ public class ConsoleIO {
         }
         System.out.println();
 
-        converter.printEquivalentNFA(System.out);
+        converter.printEquivalentNFA();
 
     }
 }

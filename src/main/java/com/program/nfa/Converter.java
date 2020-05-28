@@ -8,19 +8,26 @@ public class Converter {
     private int c;
     private int[] set;
     private int[] buffer;
+    private int[] numbersOfFinalStates;
     private char[] alphabet;
     private int[][] eClosure;
     private Node[][] transitionTable;
+    private int countOfFinalStates;
+    private int numberOfStartState;
+    PrintStream os;
 
-
-    public Converter(char[] alphabet, int countOfStates) {
+    public Converter(char[] alphabet, int countOfStates, PrintStream os, int numberOfStartState, int countOfFinalStates, int[] numbersOfFinalStates) {
         this.alphabet = alphabet;
         this.countOfStates = countOfStates;
-
+        this.numbersOfFinalStates = numbersOfFinalStates;
+        this.numberOfStartState = numberOfStartState;
+        this.countOfFinalStates = countOfFinalStates;
         set = new int[countOfStates + 1];
         buffer = new int[countOfStates + 1];
         eClosure = new int[countOfStates + 1][countOfStates + 1];
         transitionTable = new Node[countOfStates + 1][countOfStates + 1];
+
+        this.os = os;
 
         tableInit();
     }
@@ -33,11 +40,14 @@ public class Converter {
         }
     }
 
-    public void printEquivalentNFA(PrintStream os) {
+    public void printEquivalentNFA() {
         fillEClosure();
         Node temp;
         os.println("Эквивалентный НКА без эпсилон-команд");
         os.println("-----------------------------------");
+        os.println("Стартовое состояние: ");
+        printEClosure(numberOfStartState);
+        os.println();
         os.print("Алфавит: ");
         for (int i = 0; i < alphabet.length; i++) {
             if (i == alphabet.length - 1) {
@@ -49,11 +59,7 @@ public class Converter {
         os.println();
         os.print("Состояния: ");
         for (int i = 1; i <= countOfStates; i++) {
-            if (i == countOfStates) {
-                os.print("q" + i);
-            } else {
-                os.print("q" + i + ",");
-            }
+            printEClosure(i);
         }
         os.println();
         os.println("Таблица:");
@@ -61,13 +67,13 @@ public class Converter {
 
         //заголовок таблицы
         for (int j = 0; j < alphabet.length - 1; j++) {
-            os.printf("%10s", alphabet[j]);
+            os.printf("%18s", alphabet[j]);
         }
         os.println();
 
         //левая колонка + тело
         for (int i = 1; i <= countOfStates; i++) {
-            os.print("q" + i + "  ");
+            printEClosure(i);
             for (int j = 0; j < alphabet.length - 1; j++) {
 
                 for (int m = 1; m <= countOfStates; m++) {
@@ -95,11 +101,13 @@ public class Converter {
                     }
                 }
                 stringBuilder.append("}");
-                os.printf("%10s", stringBuilder.toString());
+                os.printf("%15s", stringBuilder.toString());
             }
             os.println();
         }
         os.println();
+        os.print("Конечные состояния: ");
+        findFinalState();
     }
 
     private boolean isEndIndex(int index) {
@@ -162,12 +170,35 @@ public class Converter {
         }
     }
 
+    private void printEClosure(int i) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{");
+        for(int j = 0; eClosure[i][j] != 0; j++) {
+            stringBuilder.append("q").append(eClosure[i][j]).append(",");
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        stringBuilder.append("}\t");
+        os.print(stringBuilder.toString());
+    }
+
     private void unionClosure(int i) {
         int j = 0, k;
         while (eClosure[i][j] != 0) {
             k = eClosure[i][j];
             set[k] = 1;
             j++;
+        }
+    }
+
+    private void findFinalState() {
+        for(int i = 0; i < countOfFinalStates; i++) {
+            for(int j = 1; j <= countOfStates; j++) {
+                for(int k = 0; eClosure[j][k] != 0; k++) {
+                    if(eClosure[j][k] == numbersOfFinalStates[i]) {
+                        printEClosure(j);
+                    }
+                }
+            }
         }
     }
 
