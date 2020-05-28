@@ -22,7 +22,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.program.nfa.FileIO</mainClass>
+                            <mainClass>com.program.nfa.ConsoleIO</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
